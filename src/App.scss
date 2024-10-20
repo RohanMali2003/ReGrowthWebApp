@@ -1,0 +1,14 @@
+@use '@assets/css/utilities.scss';
+@use '@assets/css/custom_utilities';
+@use '@assets/css/common';
+@use '@assets/css/mui_overrides';
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+html,
+body {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}

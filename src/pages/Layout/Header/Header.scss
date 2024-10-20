@@ -1,0 +1,31 @@
+@use '@assets/css/color_variables' as color_variables;
+
+.header {
+  max-height: 70px;
+  border-bottom: 1px solid color_variables.$ash-gray;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  min-width: 234px;
+  padding: 8px 0 9px 23px;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17.5px 0 16.5px 0;
+
+  .MuiBadge-badge {
+    min-width: 5px;
+    height: 12px;
+    width: 12px;
+    font-size: 8px;
+    left: 10px;
+    top: 7px;
+  }
+}

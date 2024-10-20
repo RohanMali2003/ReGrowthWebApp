@@ -1,0 +1,38 @@
+$black: #000000;
+$white-smoke: #f8f8f8;
+$american-silver: #cfcfd2;
+$primary-blue: #34a3d3;
+$havelock-blue: #5fb6dc;
+$bright-cerulean: #24abe0;
+$alaitoc-blue: #8e8b98;
+$gray34: #575757;
+$lighter-gray: #f9f9f9;
+$light-gray: #d3d3d3;
+$slate-gray: #778793;
+$comet-gray: #566f7d;
+$ash-gray: #b5b2be;
+$lime-spruce: #38444a;
+$auro-metal: #667080;
+$regent-gray: #78909c;
+$light-red: #d32f2f;
+
+$text-colors: (
+  app-dark-black: $black,
+  lighter-gray: $lighter-gray,
+  medium-gray: $american-silver,
+  dark-gray: $comet-gray,
+  gray-34: $gray34,
+  slate-gray: $slate-gray,
+  primary-blue: $primary-blue,
+  alaitoc-blue: $alaitoc-blue,
+  link-blue: $havelock-blue,
+  lime-spruce: $lime-spruce,
+  auro-metal: $auro-metal,
+  light-red: $light-red,
+);
+
+$background-colors: (
+  gray: $white-smoke,
+  primary-blue: $primary-blue,
+  lighter-gray: $lighter-gray,
+);

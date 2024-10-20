@@ -1,0 +1,10 @@
+@use '@assets/css/color_variables' as color_variables;
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  min-width: 234px;
+  height: 100%;
+  justify-content: space-between;
+  border-right: 1px solid color_variables.$ash-gray;
+}

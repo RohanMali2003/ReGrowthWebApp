@@ -1,0 +1,15 @@
+.rightPanel {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 42px 41px 26px 34px;
+}
+
+.rightPanelFooter {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

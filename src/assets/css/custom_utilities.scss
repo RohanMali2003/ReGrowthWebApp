@@ -1,0 +1,86 @@
+@use 'color_variables';
+@use 'misc_variables';
+
+/** ----- Text-colors ----- **/
+@each $color, $value in color_variables.$text-colors {
+  .text-#{$color} {
+    color: $value !important;
+  }
+  .text-hover-#{$color} {
+    &:hover {
+      color: $value !important;
+    }
+  }
+}
+
+/** ----- Background-colors ----- **/
+@each $color, $value in color_variables.$background-colors {
+  .bg-#{'' + $color} {
+    background: $value !important;
+  }
+}
+
+/** ----- Fixed font-sizes ----- **/
+@each $size, $value in misc_variables.$fixed-font-size {
+  .fixed-fs-#{$size} {
+    font-size: $value !important;
+  }
+}
+
+/** ----- Border radius ----- **/
+@each $rad, $value in misc_variables.$border-radius {
+  .border-rad-#{$rad} {
+    border-radius: $value !important;
+  }
+}
+
+/** ----- Font weights ----- **/
+.font-weight-light {
+  font-weight: 300 !important;
+}
+
+.font-weight-lighter {
+  font-weight: lighter !important;
+}
+
+.font-weight-normal {
+  font-weight: 400 !important;
+}
+
+.font-weight-medium {
+  font-weight: 500 !important;
+}
+
+.font-weight-semi-bold {
+  font-weight: 600 !important;
+}
+
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+
+.font-weight-bolder {
+  font-weight: bolder !important;
+}
+
+/** ---- Misc utilities Classes ---- **/
+.c-pointer {
+  cursor: pointer;
+}
+
+.text-hover-underline:hover {
+  text-decoration: underline;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-decoration-none {
+  text-decoration: none;
+}
+
+.disabledElement {
+  pointer-events: none;
+  opacity: 0.4;
+}
