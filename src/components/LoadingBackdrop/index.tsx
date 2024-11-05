@@ -1,5 +1,5 @@
 import React from 'react';
-import { PRIMARY_BLUE } from '../../constants/colors';
+import { PRIMARY_BLUE } from 'src/constants/colors';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 

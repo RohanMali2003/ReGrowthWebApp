@@ -1,7 +1,7 @@
 import React from 'react';
-import { GRAY34, LIGHT_GRAY } from '../../../constants/colors';
+import { GRAY34, LIGHT_GRAY } from 'src/constants/colors';
 import Typography from '@mui/material/Typography';
-import { DASHBOARD_PATH } from '../../../constants/paths';
+import { DASHBOARD_PATH } from 'src/constants/paths';
 
 const styles = {
   fontSize: '14px',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import { BLACK, ROMAN_SILVER } from '../../constants/colors';
+import { BLACK, ROMAN_SILVER } from 'src/constants/colors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Button from '@mui/material/Button';
@@ -9,7 +9,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Icon from '../Icon';
+import Icon from 'src/components/Icon';
 
 export type EllipsesDropdownOptions = Array<{
   label: string | JSX.Element;

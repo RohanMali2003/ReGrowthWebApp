@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { EllipsesDropdown, EllipsesDropdownOptions } from '../../../components';
+import { EllipsesDropdown, EllipsesDropdownOptions } from 'src/components';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { AvatarIcon, ReactIcon } from '../../../assets';
-import { BLACK } from '../../../constants/colors';
+import { AvatarIcon, ReactIcon } from 'src/assets';
+import { BLACK } from 'src/constants/colors';
 
 import './Header.scss';
 

@@ -17,7 +17,7 @@ import {
   WARNING_ORANGE,
   WARNING_YELLOW,
   WHITE,
-} from '../constants/colors';
+} from 'src/constants/colors';
 
 const commonTextStyle: React.CSSProperties = {
   lineHeight: '22px',

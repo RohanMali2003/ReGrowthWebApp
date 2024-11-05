@@ -1,5 +1,5 @@
 import React from 'react';
-import { BLUE_MATISSE, SAIL_BLUE } from '../../constants/colors';
+import { BLUE_MATISSE, SAIL_BLUE } from 'src/constants/colors';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';

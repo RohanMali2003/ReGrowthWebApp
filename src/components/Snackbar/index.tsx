@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { WHITE } from '../../constants/colors';
+import { WHITE } from 'src/constants/colors';
 import Alert, { AlertColor } from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import MuiSnackbar from '@mui/material/Snackbar';
-import Icon from '../Icon';
+import Icon from 'src/components/Icon';
 
 type SnackbarProps = {
   message: string | JSX.Element;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -7,13 +7,13 @@ import {
   GRAY34,
   PRIMARY_BLUE,
   WHITE_SMOKE,
-} from '../../constants/colors';
+} from 'src/constants/colors';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Icon from '../Icon';
+import Icon from 'src/components/Icon';
 
 interface NavItemData {
   title: string | JSX.Element;

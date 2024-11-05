@@ -1,3 +1,4 @@
+import React from 'react';
 import { FiHome } from 'react-icons/fi';
 import {
   DASHBOARD_PATH,
@@ -5,7 +6,7 @@ import {
   MEDICINES,
   PATIENTS,
   PROCEDURES,
-} from '../../../constants/paths';
+} from 'src/constants/paths';
 
 export const globalOptions = [
   {
