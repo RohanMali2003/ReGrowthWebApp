@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiArrowRight, FiEdit3, FiTrash2 } from 'react-icons/fi';
+import { FiArrowRight, FiEdit3, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { AURO_METAL, PRIMARY_BLUE } from 'src/constants/colors';
 import ActionsContainer from 'src/components/Table/ActionsContainer';
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { SxProps } from '@mui/system/styleFunctionSx';
 
 type ActionsProps = {
+  onAddClick?: () => void;
   onEditClick?: () => void;
   onDeleteClick?: () => void;
   onViewDetails?: () => void;
@@ -20,6 +21,7 @@ type ActionsProps = {
 };
 
 export const Actions: React.FC<ActionsProps> = ({
+  onAddClick,
   onEditClick,
   onDeleteClick,
   onViewDetails,
@@ -37,6 +39,18 @@ export const Actions: React.FC<ActionsProps> = ({
       ...sxContainer,
     }}
   >
+    {onAddClick && (
+          <Tooltip title="Add" arrow>
+            <IconButton
+              size="small"
+              sx={{ marginRight: '35px' }}
+              onClick={onAddClick}
+            >
+              <FiPlus cursor="pointer" color={AURO_METAL} size={18} />
+            </IconButton>
+          </Tooltip>
+        )}
+
     {onEditClick && (
       <Tooltip title="Edit" arrow>
         <IconButton

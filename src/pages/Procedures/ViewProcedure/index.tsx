@@ -1,9 +1,11 @@
 import React from 'react';
 import {
   Button,
+  ConfirmationModal,
   ErrorBoundary,
   FormError,
   Icon,
+  LoadingBackdrop,
   PageLoader,
   Snackbar,
   SubPanel,
@@ -12,11 +14,13 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetProcedureDetail } from 'src/hooks/useProcedures';
+import { useGetProcedureDetail, useDeleteProcedure } from 'src/hooks/useProcedures';
 import { viewProceduresBreadCrumbLinks } from '../constants';
 import ProcedureBasicInfo from './ProcedureBasicInfo';
 import { ERROR_RED } from 'src/constants/colors';
 import useSnackbarAlert from 'src/hooks/useSnackbarAlert';
+import { getEditProcedureRoute, PROCEDURES } from 'src/constants/paths';
+import useDeleteConfirmationModal from 'src/hooks/useDelete';
 
 const ViewProcedure: React.FC = (): JSX.Element => {
   const { id = '' } = useParams();
@@ -26,15 +30,40 @@ const ViewProcedure: React.FC = (): JSX.Element => {
   });
   const { snackbarAlertState, onDismiss, setSnackbarAlertState } =
     useSnackbarAlert();
-
+    
   const onEditProcedure = () => {
-    setSnackbarAlertState({
-      severity: 'success',
-      title: 'Button Click',
-      message: 'Edit button clicked for procedure',
-    });
+    navigate(getEditProcedureRoute(id));
   };
 
+  const { mutate: deleteProcedure, isPending: isDeleteInProgress } =
+    useDeleteProcedure({
+      onSuccess: () => {
+        navigate(PROCEDURES, {
+          state: {
+            alert: {
+              severity: 'success',
+              title: 'Procedure Deleted.',
+              message: `Procedure "${deleteConfirmationModalValues?.name}" is deleted successfully.`,
+            },
+          },
+        });
+      },
+      onError: (err: Error) => {
+        setSnackbarAlertState({
+          severity: 'error',
+          title: 'ERROR.',
+          message: err.message,
+        });
+      },
+    });
+  const {
+    deleteConfirmationModalValues,
+    onDeleteConfirm,
+    showDeleteConfirmationModal,
+    onShowDeleteConfirmationModal,
+    onClose,
+  } = useDeleteConfirmationModal({ onDelete: deleteProcedure });
+  
   return (
     <ErrorBoundary fallbackComponent={FormError}>
       <Snackbar
@@ -43,7 +72,7 @@ const ViewProcedure: React.FC = (): JSX.Element => {
         message={snackbarAlertState.message}
         onClose={onDismiss}
       />
-
+      <LoadingBackdrop loading={isDeleteInProgress} />
       <SubPanel
         pageTitle="PROCEDURE DETAILS"
         breadcrumbLinks={viewProceduresBreadCrumbLinks}
@@ -88,12 +117,9 @@ const ViewProcedure: React.FC = (): JSX.Element => {
               <Button
                 variant="contained"
                 onClick={() =>
-                  setSnackbarAlertState(
-                    {
-                      severity: 'error',
-                      title: 'Button Click',
-                      message: 'Delete button clicked for procedure',
-                    }
+                  onShowDeleteConfirmationModal(
+                    data?.id || '',
+                    data?.procedureDetails || '',
                   )
                 }
                 startIcon={<Icon icon="trash" size="15" />}
@@ -114,6 +140,11 @@ const ViewProcedure: React.FC = (): JSX.Element => {
               Back
             </Button>
           </Box>
+          <ConfirmationModal
+            onClose={onClose}
+            onSubmit={onDeleteConfirm}
+            open={showDeleteConfirmationModal}
+          />
         </Stack>
       </PageLoader>
     </ErrorBoundary>

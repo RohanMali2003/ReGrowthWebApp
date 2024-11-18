@@ -7,46 +7,46 @@ import {
   PageLoader,
   Table,
   TableContainer,
-  Actions,
   Snackbar,
-  ConfirmationModal,
   LoadingBackdrop,
+  ConfirmationModal,
+  Actions,
 } from 'src/components';
-import { listProceduresBreadcrumbLinks, ProceduresTableColumns } from './constants';
-import { useDeleteProcedure, useGetProceduresList } from 'src/hooks/useProcedures';
+import { listUsersBreadcrumbLinks, usersTableColumns } from './constants';
 import { usePagination } from 'src/hooks/usePagination';
 import { useDebounce } from '@uidotdev/usehooks';
-import { useNavigate } from 'react-router-dom';
-import { formatDate } from 'src/util/common';
 import useSnackbarAlert from 'src/hooks/useSnackbarAlert';
-import { getEditProcedureRoute, getViewProcedurePath } from 'src/constants/paths';
+import { useDeleteUser, useGetUsersList } from 'src/hooks/useUser';
 import useDeleteConfirmationModal from 'src/hooks/useDelete';
+import { getEditUserRoute, NEW_USER_PATH } from 'src/constants/paths';
+import { useNavigate } from 'react-router-dom';
+import { FiUser } from 'react-icons/fi';
 
-const Procedures: React.FC = (): JSX.Element => {
+const Users: React.FC = (): React.ReactElement => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState<FiltersState>();
   const debouncedSearchQuery = useDebounce(filters?.searchQuery, 500);
 
-  const { snackbarAlertState, setSnackbarAlertState,  onDismiss } =
+  const { snackbarAlertState, onDismiss, setSnackbarAlertState } =
     useSnackbarAlert();
 
   const { pageNumber, changePageNumber } = usePagination();
-  const { response, isFetching, isError, refetch } = useGetProceduresList({
+  const { response, isFetching, isError, refetch } = useGetUsersList({
     apiConfig: {
       params: {
-        _page: pageNumber,// TODO: Change this to full text search
-        patientName: debouncedSearchQuery,
+        _page: pageNumber,
+        firstName: debouncedSearchQuery,
       },
     },
   });
 
-  const { mutate: deleteProcedure, isPending: isDeleteInProgress } =
-    useDeleteProcedure({
+  const { mutate: deleteUser, isPending: isDeleteInProgress } =
+    useDeleteUser({
       onSuccess: () => {
         setSnackbarAlertState({
           severity: 'success',
-          title: 'Procedure Deleted.',
-          message: `Procedure "${deleteConfirmationModalValues?.name}" is deleted successfully.`,
+          title: 'user Deleted.',
+          message: `User "${deleteConfirmationModalValues?.name}" is deleted successfully.`,
         });
 
         refetch();
@@ -59,43 +59,43 @@ const Procedures: React.FC = (): JSX.Element => {
         });
       },
     });
+
   const {
     deleteConfirmationModalValues,
     onDeleteConfirm,
     showDeleteConfirmationModal,
     onShowDeleteConfirmationModal,
     onClose,
-  } = useDeleteConfirmationModal({ onDelete: deleteProcedure });
+  } = useDeleteConfirmationModal({ onDelete: deleteUser });  
 
   const noData = !response?.data?.length;
 
-  const proceduresTableColumnsWithActions = useMemo(
+  const usersTableColumnsWithActions = useMemo(
     () => [
-      ...ProceduresTableColumns,
       {
-        header: 'Procedure Date',
-        accessorKey: 'procedureDate',
-        cell: ({ getValue }) => (
-          <Box className="text-slate-gray">{formatDate(getValue())}</Box>
-        ),
+        id: 'avatar',
+        cell: () => {
+          return (
+            <FiUser size="20px" />
+          );
+        },
       },
+      ...usersTableColumns,
       {
         id: 'actions',
         cell: ({ row }) => {
-          const procedureValues = row.original;
+          const userValues = row.original;
+
           return (
             <Actions
               onEditClick={() => {
-                navigate(getEditProcedureRoute(procedureValues.id));
+                navigate(getEditUserRoute(userValues.id));
               }}
               onDeleteClick={() => {
                 onShowDeleteConfirmationModal(
-                  procedureValues.id,
-                  procedureValues.procedureDetails,
+                  userValues.id,
+                  userValues.username,
                 );
-              }}
-              onViewDetails={() => {
-                navigate(getViewProcedurePath(procedureValues.id));
               }}
             />
           );
@@ -107,34 +107,38 @@ const Procedures: React.FC = (): JSX.Element => {
 
   return (
     <>
+    <LoadingBackdrop loading={!!isDeleteInProgress} />
       <Snackbar
         open={!!snackbarAlertState.message}
         severity={snackbarAlertState.severity}
         message={snackbarAlertState.message}
         onClose={onDismiss}
       />
-      <LoadingBackdrop loading={isDeleteInProgress} />
       <Stack spacing={2}>
         <SubPanel
-          pageTitle="PROCEDURES"
-          breadcrumbLinks={listProceduresBreadcrumbLinks}
+          pageTitle="USERS"
+          breadcrumbLinks={listUsersBreadcrumbLinks}
+          rightSideButtonText="New User"
+          rightSideButtonClickEvent={() => {
+            navigate(NEW_USER_PATH);
+          }}
         />
         <TableContainer
           onFiltersChange={(filters) => {
             setFilters(filters);
           }}
-          placeholder="Search By Patient Name"
+          placeholder="Search By User Name"
         >
           {({ showFilters }) => (
             <Box>
               <PageLoader
                 isLoading={isFetching}
                 isEmpty={(noData && !isError) || (noData && showFilters)}
-                emptyMessage="No patients found"
+                emptyMessage="No users found"
                 Components={{ Loading: 'table' }}
               >
                 <Table
-                  columns={proceduresTableColumnsWithActions}
+                  columns={usersTableColumnsWithActions}
                   data={response?.data || []}
                   totalRecords={response?.items}
                   onPageChange={changePageNumber}
@@ -152,7 +156,6 @@ const Procedures: React.FC = (): JSX.Element => {
       />
     </>
   );
-  
 };
 
-export default Procedures;
+export default Users;

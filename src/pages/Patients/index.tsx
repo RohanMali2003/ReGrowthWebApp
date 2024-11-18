@@ -10,11 +10,13 @@ import {
   Actions,
   Snackbar,
   LoadingBackdrop,
+  Icon,
 } from 'src/components';
 import { listPatientsBreadcrumbLinks, patientsTableColumns } from './constants';
 import { useNavigate } from 'react-router-dom';
 import {
   getEditPatientRoute,
+  getEditProcedureRoute,
   getViewPatientPath,
   NEW_PATIENT_PATH,
 } from 'src/constants/paths';
@@ -76,6 +78,18 @@ const Patients: React.FC = (): JSX.Element => {
 
   const patientsTableColumnsWithActions = useMemo(
     () => [
+      {
+        id: 'avatar',
+        cell: ({ row }) => {
+          const patientValues = row.original;
+          // Determine the appropriate icon or avatar based on gender
+          const icon =
+            patientValues.patientGender === 'male' ? 'businessman' : 'businesswoman';
+          return (
+            <Icon icon={icon} size="30px" />
+          );
+        },
+      },
       ...patientsTableColumns,
       {
         header: 'Registration Date',
@@ -91,6 +105,9 @@ const Patients: React.FC = (): JSX.Element => {
 
           return (
             <Actions
+              onAddClick={ ( ) => {
+                navigate(getEditProcedureRoute(patientValues.id));
+              }}
               onEditClick={() => {
                 navigate(getEditPatientRoute(patientValues.id));
               }}

@@ -81,6 +81,10 @@ import {
   SiHelm,
   SiMicrosoftteams,
 } from 'react-icons/si';
+import {
+  FcBusinessman,
+  FcBusinesswoman,
+} from 'react-icons/fc';
 
 export type IconMappingKeys = keyof typeof iconMapping;
 
@@ -159,6 +163,8 @@ const iconMapping = {
   done: MdDoneAll,
   cloud: CiCloud,
   activity: BsActivity,
+  businessman: FcBusinessman,
+  businesswoman: FcBusinesswoman,
 } as const;
 
 export const getIcon = (iconValue: IconMappingKeys) => {

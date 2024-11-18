@@ -11,4 +11,14 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://15.207.44.219:8082',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''), // Remove '/api' prefix from the request URL
+      },
+    },
+  },
 });

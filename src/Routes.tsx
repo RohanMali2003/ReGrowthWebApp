@@ -10,8 +10,12 @@ import {
   NEW_PATIENT_PATH,
   PATIENTS,
   PROCEDURES,
+  EDIT_PROCEDURE_PATH,
   VIEW_PATIENT_PATH,
   VIEW_PROCEDURE_PATH,
+  USERS,
+  NEW_USER_PATH,
+  EDIT_USER_PATH,
 } from './constants/paths';
 import Login from './pages/Login';
 import ProtectedRoute from './pages/Login/ProtectedRoute';
@@ -22,6 +26,9 @@ import Inventory from './pages/Inventory';
 import AddEditPatient from './pages/Patients/AddEdit';
 import ViewPatient from './pages/Patients/ViewPatient';
 import ViewProcedure from './pages/Procedures/ViewProcedure';
+import AddEditProcedure from './pages/Procedures/AddEdit';
+import Users from './pages/Users';
+import AddEditUser from './pages/Users/AddEdit';
 
 const AppRoutes: React.FC = () => (
   <Routes>
@@ -36,7 +43,12 @@ const AppRoutes: React.FC = () => (
       <Route path={VIEW_PATIENT_PATH} element={<ViewPatient />} />
 
       <Route path={PROCEDURES} element={<Procedures />} />
+      <Route path={EDIT_PROCEDURE_PATH} element={<AddEditProcedure />} />
       <Route path={VIEW_PROCEDURE_PATH} element={<ViewProcedure />} />
+
+      <Route path={USERS} element={<Users />} />
+      <Route path={NEW_USER_PATH} element={<AddEditUser />} />
+      <Route path={EDIT_USER_PATH} element={<AddEditUser />} />
 
       <Route path={MEDICINES} element={<Medicines />} />
       <Route path={INVENTORY} element={<Inventory />} />

@@ -3,7 +3,7 @@ import { EllipsesDropdown, EllipsesDropdownOptions } from 'src/components';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { AvatarIcon, ReactIcon } from 'src/assets';
+import { AvatarIcon, regrowthIcon } from 'src/assets';
 import { BLACK } from 'src/constants/colors';
 
 import './Header.scss';
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
     <Box className="header">
       <Box className="logo">
         {' '}
-        <img src={ReactIcon} alt="logo" width="auto" height="auto" />
+        <img src={regrowthIcon} alt="logo" width="auto" height="auto" />
       </Box>
       <Box className="headerContent">
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
             </Typography>
             <Avatar
               alt="Omkar Joshi"
-              sx={{ height: '45px', width: '45px', marginRight: '12px' }}
+              sx={{ height: '45px', width: '45px', marginRight: '12px',  }}
               src={AvatarIcon}
             />
             <EllipsesDropdown

@@ -1,37 +1,46 @@
 import React from 'react';
-import { FiHome } from 'react-icons/fi';
+import { AiOutlineMedicineBox } from 'react-icons/ai';
+import { FiClipboard, FiUsers } from 'react-icons/fi';
+import { MdOutlineInventory } from 'react-icons/md';
+import { RxDashboard } from 'react-icons/rx';
 import {
   DASHBOARD_PATH,
   INVENTORY,
   MEDICINES,
   PATIENTS,
   PROCEDURES,
+  USERS,
 } from 'src/constants/paths';
 
 export const globalOptions = [
   {
     title: 'Dashboard',
-    icon: <FiHome size="24px" />,
+    icon: <RxDashboard size="24px" />,
     route: DASHBOARD_PATH,
   },
   {
     title: 'Patients',
-    icon: <FiHome size="24px" />,
+    icon: <FiUsers size="24px" />,
     route: PATIENTS,
   },
   {
     title: 'Procedures',
-    icon: <FiHome size="24px" />,
+    icon: <FiClipboard size="24px" />,
     route: PROCEDURES,
   },
   {
     title: 'Medicines',
-    icon: <FiHome size="24px" />,
+    icon: <AiOutlineMedicineBox size="24px" />,
     route: MEDICINES,
   },
   {
     title: 'Inventory',
-    icon: <FiHome size="24px" />,
+    icon: <MdOutlineInventory size="24px" />,
     route: INVENTORY,
+  },
+  {
+    title: 'Users',
+    icon: <FiUsers size="24px" />,
+    route: USERS,
   },
 ];
