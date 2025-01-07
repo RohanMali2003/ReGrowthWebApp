@@ -1,31 +1,53 @@
 import { QueryKey, useQuery, useMutation } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
-import { PROCEDURES_ROUTE, getProceduresWithIdRoute } from 'src/api/procedures/routes';
+import { NEW_PROCEDURE_ROUTE, PROCEDURES_ROUTE, deleteProcedureWithIdRoute, editProcedureWithIdRoute, getProceduresListByProcedureIdRoute,GET_FILTERED_PROCEDURES_ROUTE } from 'src/api/procedures/routes';
 import axiosClient from 'src/util/axios';
 
 export const getProceduresList = (config?: AxiosRequestConfig) =>
   axiosClient
-    .get<PaginatedResponse<Procedure>>(PROCEDURES_ROUTE, config)
-    .then((res) => res.data);
+    .get<Procedure[]>(PROCEDURES_ROUTE, config)
+    .then((res) => ({
+      content: res.data,
+      total: res.data.length,
+      page: 1,
+      pageSize: res.data.length,
+    }));
 
+    export const getFilteredProcedures = (
+      fromDate: string,
+      toDate: string,
+      session: string,
+      config?: AxiosRequestConfig,
+    ) =>
+      axiosClient
+        .get<Procedure[]>(GET_FILTERED_PROCEDURES_ROUTE, {
+          ...config,
+          params: { fromDate, toDate, session },
+        })
+        .then((res) => res.data);
+    
 export const createProcedure = (
+  id: string,
   payload: CreateProcedurePayload,
   config?: AxiosRequestConfig,
-) => axiosClient.post<Procedure>(PROCEDURES_ROUTE, payload, config);
+) => {
+  const updatedPayload = { ...payload, patientId: id };
+  return axiosClient.post<Procedure>(NEW_PROCEDURE_ROUTE, updatedPayload, config);
+};
 
 export const patchProcedure = (id: string, payload: CreateProcedurePayload) =>
   axiosClient.patch<Procedure, CreateProcedurePayload>(
-    getProceduresWithIdRoute(id),
+    editProcedureWithIdRoute(id),
     payload,
   );
 
 export const getProcedureDetail = (id: string, config?: AxiosRequestConfig) =>
   axiosClient
-    .get<Procedure>(getProceduresWithIdRoute(id), config)
+    .get<Procedure>(getProceduresListByProcedureIdRoute(id), config)
     .then((res) => res.data);
 
 export const deleteProcedure = (id: string) =>
-  axiosClient.delete<null>(getProceduresWithIdRoute(id));
+  axiosClient.delete<null>(deleteProcedureWithIdRoute(id));
 
 /**
  * HOOKS
@@ -47,10 +69,11 @@ export const useGetProceduresList = <Override = PaginatedResponse<Procedure>>(
 };
 
 export const useCreateProcedure = (
+  id: string,
   opts?: MutationConfig<Procedure, CreateProcedurePayload>,
 ) => {
   return useMutation({
-    mutationFn: (payload: CreateProcedurePayload) => createProcedure(payload),
+    mutationFn: (payload: CreateProcedurePayload) => createProcedure(id, payload),
     ...opts,
   });
 };
@@ -72,11 +95,13 @@ export const useGetProcedureDetail = <Override = Procedure>(
 ) => {
   const { apiConfig, id } = opts;
   const queryKey = ['registry', id] as QueryKey;
-  return useQuery({
+  const { data, ...rest } = useQuery({
     queryKey,
     queryFn: ({ signal }) => getProcedureDetail(id, { ...apiConfig, signal }),
     enabled: !!id,
   });
+
+  return { response: data, ...rest };
 };
 
 export const useDeleteProcedure = (opts?: MutationConfig<null, string>) => {
@@ -85,3 +110,23 @@ export const useDeleteProcedure = (opts?: MutationConfig<null, string>) => {
     ...opts,
   });
 };
+
+export const useGetFilteredProcedures = <Override = Procedure[]>(opts: UseQueryOption<Procedure[], Override> & {
+  fromDate: string;
+  toDate: string;
+  session: string;
+}) => {
+  const { key, useQueryConfig, apiConfig, fromDate, toDate, session } = opts;
+  const queryKey = (key || ['filtered-procedures', fromDate, toDate, session]) as QueryKey;
+
+  const { data, ...rest } = useQuery<Procedure[]>({
+      queryKey,
+      queryFn: ({ signal }) =>
+          getFilteredProcedures(fromDate, toDate, session, { ...apiConfig, signal }),
+      enabled: !!fromDate && !!toDate && !!session,  // Ensures query is only enabled if all filters are set
+      ...useQueryConfig,
+  });
+
+  return { response: data, ...rest };
+};
+

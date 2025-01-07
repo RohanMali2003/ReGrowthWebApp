@@ -1,6 +1,6 @@
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
-import { getPatientWithIdRoute, PATIENTS_ROUTE } from 'src/api/patients/routes';
+import { deletePatientWithIdRoute, editPatientWithIdRoute, getPatientWithIdRoute, getProceduresListByPatientIdRoute, NEW_PATIENT_ROUTE, PATIENTS_ROUTE } from 'src/api/patients/routes';
 import axiosClient from 'src/util/axios';
 
 /**
@@ -24,10 +24,20 @@ export const getPatientList = (config?: AxiosRequestConfig) =>
     .get<PaginatedResponse<Patient>>(PATIENTS_ROUTE, config)
     .then((res) => res.data);
 
+export const getProceduresListByPatientId = (id: string, config?: AxiosRequestConfig) =>
+  axiosClient
+    .get<Procedure[]>(getProceduresListByPatientIdRoute(id), config)
+    .then((res) => ({
+      content: res.data,
+      total: res.data.length,
+      page: 1,
+      pageSize: res.data.length,
+    }));
+    
 export const createPatient = (
   payload: CreatePatientPayload,
   config?: AxiosRequestConfig,
-) => axiosClient.post<Patient>(PATIENTS_ROUTE, payload, config);
+) => axiosClient.post<Patient>(NEW_PATIENT_ROUTE, payload, config);
 
 export const getPatientDetail = (id: string, config?: AxiosRequestConfig) =>
   axiosClient
@@ -36,12 +46,12 @@ export const getPatientDetail = (id: string, config?: AxiosRequestConfig) =>
 
 export const patchPatient = (id: string, payload: CreatePatientPayload) =>
   axiosClient.patch<Patient, CreatePatientPayload>(
-    getPatientWithIdRoute(id),
+    editPatientWithIdRoute(id),
     payload,
   );
 
 export const deletePatient = (id: string) =>
-  axiosClient.delete<null>(getPatientWithIdRoute(id));
+  axiosClient.delete<null>(deletePatientWithIdRoute(id));
 
 /**
  * HOOKS
@@ -55,6 +65,23 @@ export const useGetPatientList = <Override = PaginatedResponse<Patient>>(
   const { data, ...rest } = useQuery<PaginatedResponse<Patient>>({
     queryKey,
     queryFn: ({ signal }) => getPatientList({ ...apiConfig, signal }),
+    enabled: !!apiConfig,
+    ...useQueryConfig,
+  });
+
+  return { response: data, ...rest,  };
+};
+
+export const useGetProceduresListByPatientId = <Override = PaginatedResponse<Procedure>>(
+  id: string,
+  opts?: UseQueryOption<PaginatedResponse<Procedure>, Override>,
+) => {
+  const { key, useQueryConfig, apiConfig } = opts || {};
+  const queryKey = (key || ['patientProcedures', id]) as QueryKey;
+
+  const { data, ...rest } = useQuery<PaginatedResponse<Procedure>>({
+    queryKey,
+    queryFn: ({ signal }) => getProceduresListByPatientId(id, { ...apiConfig, signal }),
     enabled: !!apiConfig,
     ...useQueryConfig,
   });

@@ -5,9 +5,9 @@ import Typography from '@mui/material/Typography';
 export const PageTitle: React.FC<PropsWithChildren> = ({ children }) => (
   <Typography
     sx={{
-      fontSize: '30px',
+      fontSize: '27px',
       fontWeight: 700,
-      lineHeight: '36px',
+      lineHeight: '30px',
       textTransform: 'uppercase',
       color: BLACK,
     }}

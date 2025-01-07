@@ -67,18 +67,12 @@ const Procedures: React.FC = (): JSX.Element => {
     onClose,
   } = useDeleteConfirmationModal({ onDelete: deleteProcedure });
 
-  const noData = !response?.data?.length;
+  const noData = !response?.content?.length;
 
   const proceduresTableColumnsWithActions = useMemo(
     () => [
       ...ProceduresTableColumns,
-      {
-        header: 'Procedure Date',
-        accessorKey: 'procedureDate',
-        cell: ({ getValue }) => (
-          <Box className="text-slate-gray">{formatDate(getValue())}</Box>
-        ),
-      },
+      
       {
         id: 'actions',
         cell: ({ row }) => {
@@ -86,16 +80,16 @@ const Procedures: React.FC = (): JSX.Element => {
           return (
             <Actions
               onEditClick={() => {
-                navigate(getEditProcedureRoute(procedureValues.id));
+                navigate(getEditProcedureRoute(procedureValues.procedureId.toString()));
               }}
               onDeleteClick={() => {
                 onShowDeleteConfirmationModal(
-                  procedureValues.id,
-                  procedureValues.procedureDetails,
+                  procedureValues.procedureId.toString(),
+                  procedureValues.procedureDetail,
                 );
               }}
               onViewDetails={() => {
-                navigate(getViewProcedurePath(procedureValues.id));
+                navigate(getViewProcedurePath(procedureValues.procedureId.toString()));
               }}
             />
           );
@@ -130,12 +124,12 @@ const Procedures: React.FC = (): JSX.Element => {
               <PageLoader
                 isLoading={isFetching}
                 isEmpty={(noData && !isError) || (noData && showFilters)}
-                emptyMessage="No patients found"
+                emptyMessage="No procedures found"
                 Components={{ Loading: 'table' }}
               >
                 <Table
                   columns={proceduresTableColumnsWithActions}
-                  data={response?.data || []}
+                  data={response?.content || []}
                   totalRecords={response?.items}
                   onPageChange={changePageNumber}
                   pageNumber={pageNumber}

@@ -10,9 +10,11 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
-      <Box sx={{ flexGrow: '1', display: 'flex' }}>
-        <LeftPanel />
+      <Box sx={{ flexGrow: '1', display: 'flex', overflow: 'hidden' }}>
+      <LeftPanel />
+      <Box sx={{ flexGrow: '1', overflowY: 'auto' }}>
         <RightPanel>{children}</RightPanel>
+      </Box>
       </Box>
     </Box>
   );

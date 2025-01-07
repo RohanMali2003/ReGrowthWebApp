@@ -1,7 +1,22 @@
 interface Login {
   username: string;
   password: string;
-  jwtToken: string;
 }
 
-type CreateLoginPayload = Omit<Login, 'jwtToken'>;
+type CreateLoginPayload = Login;
+
+interface RefreshToken {
+  refreshToken: string;
+}
+
+type CreateRefreshTokenPayload = RefreshToken;
+
+interface LoginResponse {
+  username: string;
+  jwtToken: string;
+  refreshToken: string;
+  LoggedInState: boolean;
+  role: string;
+}
+
+type CreateLoginResponse = LoginResponse;

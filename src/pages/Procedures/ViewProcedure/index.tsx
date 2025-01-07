@@ -25,7 +25,7 @@ import useDeleteConfirmationModal from 'src/hooks/useDelete';
 const ViewProcedure: React.FC = (): JSX.Element => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { isFetching, data } = useGetProcedureDetail({
+  const { isFetching, response } = useGetProcedureDetail({
     id,
   });
   const { snackbarAlertState, onDismiss, setSnackbarAlertState } =
@@ -97,7 +97,7 @@ const ViewProcedure: React.FC = (): JSX.Element => {
               <Typography
                 sx={{ fontWeight: '600', fontSize: '26px', lineHeight: '31px' }}
               >
-                {data?.patientName}
+                {response?.patientId}
               </Typography>
             </Box>
             <Box
@@ -118,8 +118,8 @@ const ViewProcedure: React.FC = (): JSX.Element => {
                 variant="contained"
                 onClick={() =>
                   onShowDeleteConfirmationModal(
-                    data?.id || '',
-                    data?.procedureDetails || '',
+                    response?.procedureId.toString() || '',
+                    response?.procedureDetail || '',
                   )
                 }
                 startIcon={<Icon icon="trash" size="15" />}
@@ -129,7 +129,7 @@ const ViewProcedure: React.FC = (): JSX.Element => {
               </Button>
             </Box>
           </Box>
-          <ProcedureBasicInfo procedureDetails={data} />
+          <ProcedureBasicInfo procedureDetails={response} />
           <Box>
             <Button
               variant="outlined"

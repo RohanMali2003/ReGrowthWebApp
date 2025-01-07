@@ -1,19 +1,18 @@
 interface Procedure {
-  id: string;
+  patientId: number;
   procedureId: number;
   procedureCashierName: string;
   cashPayment: number;
   clinicName: string;
   discount: number;
   finalAmount: number;
-  procedureDate: Date;
+  procedureDate: string;
   onlinePayment: number;
-  procedureDetails: string;
+  procedureDetail: string;
   procedureType: string;
-  procedureTime: Date;
   totalAmount: number;
-  patientName: string;
-  timeStamp: Date;
+  timestamp: Date;
+  cashierName: string;
 }
 
-type CreateProcedurePayload = Omit<procedure, 'proceduretId' | 'procedureTime' | 'id'>;
+type CreateProcedurePayload = Omit<procedure, 'procedureId' | 'patientId' | 'timestamp'>;

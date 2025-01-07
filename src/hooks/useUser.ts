@@ -1,6 +1,6 @@
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
-import { getUserWithIdRoute, USERS_ROUTE } from 'src/api/users/routes';
+import { deleteUserWithIdRoute, editUserWithIdRoute, getUserWithIdRoute, NEW_USER_ROUTE, USERS_ROUTE } from 'src/api/users/routes';
 import axiosClient from 'src/util/axios';
 
 /**
@@ -8,20 +8,25 @@ import axiosClient from 'src/util/axios';
  */
 export const getUsersList = (config?: AxiosRequestConfig) =>
   axiosClient
-    .get<PaginatedResponse<User[]>>(USERS_ROUTE, config)
-    .then((res) => res.data);
+    .get<User[]>(USERS_ROUTE, config)
+    .then((res) => ({
+      content: res.data,
+      total: res.data.length,
+      page: 1,
+      pageSize: res.data.length,
+    }));
 
 export const deleteUser = (id: string) =>
-  axiosClient.delete<null>(getUserWithIdRoute(id));
+  axiosClient.delete<null>(deleteUserWithIdRoute(id));
 
 export const createUser = (
   payload: CreateUserPayload,
   config?: AxiosRequestConfig,
-) => axiosClient.post<User>(USERS_ROUTE, payload, config);
+) => axiosClient.post<User>(NEW_USER_ROUTE, payload, config);
 
 export const patchUser = (id: string, payload: CreateUserPayload) =>
   axiosClient.patch<User, CreateUserPayload>(
-    getUserWithIdRoute(id),
+    editUserWithIdRoute(id),
     payload,
   );
 

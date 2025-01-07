@@ -1,1 +1,1 @@
-export const PRIMARY_DATE_FORMAT = 'dd/mm/yyyy';
+export const PRIMARY_DATE_FORMAT = 'dd-MM-yyyy';
