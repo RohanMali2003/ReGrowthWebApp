@@ -17,7 +17,7 @@ export const getAddEditBreadCrumbLinks = (isEdit = false) => [
     href: PURCHASE_ORDERS,
   },
   {
-    label: isEdit ? 'Edit Purchase Transaction' : 'New Purchase Transaction',
+    label: isEdit ? 'Edit Medicine' : 'New Medicine',
     href: '#',
   },
 ];

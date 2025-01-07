@@ -65,7 +65,7 @@ export const medicineFormValidationSchema: ObjectSchema<CreateMedicinePayload> =
     .required('Medicine Quantity is required')
     .positive()
     .integer()
-    .min(1, 'Medicine Quantity should be greater than 0'),
-
+    .min(0, 'Medicine Quantity should be greater than or equal to zero'),
+    
   });
 

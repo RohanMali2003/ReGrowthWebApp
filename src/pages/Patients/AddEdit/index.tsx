@@ -164,6 +164,7 @@ const AddEditPatient: React.FC = (): JSX.Element => {
                     Create Patient
                   </Button>
                 )}
+                
               </Box>
             </PageLoader>
           </Box>

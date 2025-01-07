@@ -79,7 +79,7 @@ function fixedHeaderContent() {
   );
 }
 
-function rowContent(index: number, row: ProcedureData) {
+function rowContent(_index: number, row: ProcedureData) {
   return (
     <>
       {columns.map((column) => (

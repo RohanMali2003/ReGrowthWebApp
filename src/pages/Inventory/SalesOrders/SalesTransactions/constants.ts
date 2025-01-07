@@ -6,14 +6,14 @@ import { object as yupObject, number, string, ObjectSchema } from 'yup';
 // Breadcrumb Links
 export const listSalesTransactionsBreadcrumbLinks = [
   {
-    label: 'Purchase Orders',
+    label: 'Sales Orders',
     href: SALES_ORDERS,
   },
 ];
 
 export const getAddEditBreadCrumbLinks = (isEdit = false) => [
   {
-    label: 'Purchase Orders',
+    label: 'Sales Orders',
     href: SALES_ORDERS,
   },
   {

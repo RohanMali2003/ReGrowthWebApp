@@ -190,7 +190,7 @@ const AddEditPurchaseTransactions: React.FC = (): JSX.Element => {
                     variant="contained"
                     sx={{ width: 'fit-content', marginLeft: '20px' }}
                   >
-                    Create Purchase Order
+                    Save Medicine
                   </Button>
                 )}
               </Box>

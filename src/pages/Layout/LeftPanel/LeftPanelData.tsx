@@ -113,13 +113,7 @@ export const globalOptions = [
         route: SALES_ORDERS,
         tooltip: 'Sales Orders', 
       },
-      {
-        title: 'Suppliers',
-        icon: <FaTruck size="18px" />,
-        route: SUPPLIERS,
-        isSubItem: true,
-        tooltip: 'Suppliers', 
-      },
+      
     ],
     tooltip: 'Inventory', 
   },

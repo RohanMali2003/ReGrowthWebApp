@@ -7,6 +7,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import { useGetMedicinesList } from 'src/hooks/useMedicines';
 import { FormInput } from 'src/components';
 
+
 const PurchaseTransactionForm: React.FC = (): JSX.Element => {
   const location = useLocation();
   const { state } = location; // This retrieves the state passed via navigate
@@ -32,12 +33,19 @@ const PurchaseTransactionForm: React.FC = (): JSX.Element => {
   // Watch fields to trigger auto-calculation
   const medicinePack = watch('medicinePack') || 0;
   const quantity = watch('quantity') || 0;
+  const rate = watch('rate') || 0;
 
   useEffect(() => {
     // Automatically calculate availableQuantity
     const calculatedAvailableQuantity = medicinePack * quantity;
     setValue('availableQuantity', calculatedAvailableQuantity);
   }, [medicinePack, quantity, setValue]);
+
+  useEffect(() => {
+    // Automatically calculate availableQuantity
+    const calculatedAmount = rate * quantity;
+    setValue('amount', calculatedAmount);
+  }, [rate, quantity, setValue]);
 
   useEffect(() => {
     if (invoiceId) {
