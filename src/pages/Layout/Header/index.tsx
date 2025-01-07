@@ -7,6 +7,7 @@ import { AvatarIcon, regrowthIcon } from 'src/assets';
 import { BLACK } from 'src/constants/colors';
 
 import './Header.scss';
+import { getAuthInfo, Logout } from 'src/util/auth';
 
 export type NotificationMessage = {
   id: string;
@@ -19,12 +20,13 @@ export type NotificationMessage = {
 };
 
 const Header: React.FC = () => {
+  const { userInfo } = getAuthInfo();
   const headerDropdownOptions = useMemo<EllipsesDropdownOptions>(
     () => [
       {
         label: 'Logout',
         action: () => {
-          console.log('Logout');
+          Logout();
         },
       },
       {
@@ -57,10 +59,10 @@ const Header: React.FC = () => {
                 marginRight: '12px',
               }}
             >
-              Omkar Joshi
+              WELCOME, {userInfo}
             </Typography>
             <Avatar
-              alt="Omkar Joshi"
+              alt={userInfo?.username}
               sx={{ height: '45px', width: '45px', marginRight: '12px',  }}
               src={AvatarIcon}
             />

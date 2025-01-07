@@ -31,16 +31,16 @@ const ProcedureBasicInfo: React.FC<ProcedureBasicInfoProps> = ({
           />
           <InfoField
             label="Details"
-            value={procedureDetails?.procedureDetails}
+            value={procedureDetails?.procedureDetail}
             flexBasis="50%"
           />
           <InfoField
             label="Cashier Name"
-            value={procedureDetails?.procedureCashierName}
+            value={procedureDetails?.cashierName}
             flexBasis="50%"
           />
           <InfoField
-            label="Clinic Name"
+            label="Clinic Name (If any)"
             value={procedureDetails?.clinicName}
             flexBasis="50%"
           />
@@ -50,18 +50,29 @@ const ProcedureBasicInfo: React.FC<ProcedureBasicInfoProps> = ({
             flexBasis="50%"
           />
           <InfoField
-            label="Time"
-            value={formatDate(procedureDetails?.procedureTime || new Date())}
+            label="Online Payment (₹)"
+            value={`${procedureDetails?.onlinePayment}`}
+            flexBasis="50%"
+          />
+
+<InfoField
+            label="Cash Payment (₹)"
+            value={`${procedureDetails?.cashPayment}`}
             flexBasis="50%"
           />
           <InfoField
-            label="Total Amount"
+            label="Total Amount (₹)"
             value={`${procedureDetails?.totalAmount}`}
             flexBasis="50%"
           />
           <InfoField
             label="Discount"
-            value={`${procedureDetails?.discount} %`}
+            value={`${procedureDetails?.discount}`}
+            flexBasis="50%"
+          />
+           <InfoField
+            label="Final Amount (₹)"
+            value={`${procedureDetails?.finalAmount}`}
             flexBasis="50%"
           />
         </Box>

@@ -16,7 +16,7 @@ import { listPatientsBreadcrumbLinks, patientsTableColumns } from './constants';
 import { useNavigate } from 'react-router-dom';
 import {
   getEditPatientRoute,
-  getEditProcedureRoute,
+  getNewProcedureRoute, 
   getViewPatientPath,
   NEW_PATIENT_PATH,
 } from 'src/constants/paths';
@@ -42,7 +42,7 @@ const Patients: React.FC = (): JSX.Element => {
       params: {
         _page: pageNumber,
         // TODO: Change this to full text search
-        firstName: debouncedSearchQuery,
+        name: debouncedSearchQuery,
       },
     },
   });
@@ -74,7 +74,7 @@ const Patients: React.FC = (): JSX.Element => {
     onClose,
   } = useDeleteConfirmationModal({ onDelete: deletePatient });
 
-  const noData = !response?.data?.length;
+  const noData = !response?.content?.length;
 
   const patientsTableColumnsWithActions = useMemo(
     () => [
@@ -84,7 +84,7 @@ const Patients: React.FC = (): JSX.Element => {
           const patientValues = row.original;
           // Determine the appropriate icon or avatar based on gender
           const icon =
-            patientValues.patientGender === 'male' ? 'businessman' : 'businesswoman';
+            patientValues.patientGender === 'Male' ? 'businessman' : 'businesswoman';
           return (
             <Icon icon={icon} size="30px" />
           );
@@ -106,19 +106,19 @@ const Patients: React.FC = (): JSX.Element => {
           return (
             <Actions
               onAddClick={ ( ) => {
-                navigate(getEditProcedureRoute(patientValues.id));
+                navigate(getNewProcedureRoute(patientValues.patientId.toString()));
               }}
               onEditClick={() => {
-                navigate(getEditPatientRoute(patientValues.id));
+                navigate(getEditPatientRoute(patientValues.patientId.toString()));
               }}
               onDeleteClick={() => {
                 onShowDeleteConfirmationModal(
-                  patientValues.id,
+                  patientValues.patientId.toString(),
                   patientValues.firstName,
                 );
               }}
               onViewDetails={() => {
-                navigate(getViewPatientPath(patientValues.id));
+                navigate(getViewPatientPath(patientValues.patientId.toString()));
               }}
             />
           );
@@ -162,7 +162,7 @@ const Patients: React.FC = (): JSX.Element => {
               >
                 <Table
                   columns={patientsTableColumnsWithActions}
-                  data={response?.data || []}
+                  data={response?.content || []}
                   totalRecords={response?.items}
                   onPageChange={changePageNumber}
                   pageNumber={pageNumber}

@@ -2,9 +2,11 @@
 
 .header {
   max-height: 70px;
-  border-bottom: 1px solid color_variables.$ash-gray;
+  border-bottom: 1px solid color_variables.$lighter-gray;
   display: flex;
   justify-content: space-between;
+  background-color: color_variables.$lighter-gray;
+  box-shadow: 1px 1px 6px 1px color_variables.$light-gray; 
 }
 
 .logo {

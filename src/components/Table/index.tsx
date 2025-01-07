@@ -32,6 +32,11 @@ import {
 import { Icon, Pagination } from 'src/components';
 
 export type TableSelectionType = 'checkbox' | 'radio';
+
+export type ExtendedColumnDef<TData, TValue> = ColumnDef<TData, TValue> & {
+  mask?: boolean;
+}
+
 type TableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -265,7 +270,9 @@ export function Table<TData, TValue = unknown>({
                       ...tableCellSxProps,
                     }}
                   >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {(cell.column.columnDef as ExtendedColumnDef<TData, TValue>).mask
+                    ? '********'
+                    : flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
               </TableRow>

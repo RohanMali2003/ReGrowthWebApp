@@ -22,6 +22,7 @@ const UserForm: React.FC = (): JSX.Element => {
       />
       <FormInput
         name="password"
+        type="password"
         label="Password"
         control={control}
         placeholder="Enter user password"

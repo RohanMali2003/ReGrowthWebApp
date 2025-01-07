@@ -15,7 +15,7 @@ declare type UseQueryOption<Response, Override = Response> = {
 };
 
 declare type PaginatedResponse<T> = {
-  data: T[];
+  content: T[];
   first: number;
   last: number;
   items: number;

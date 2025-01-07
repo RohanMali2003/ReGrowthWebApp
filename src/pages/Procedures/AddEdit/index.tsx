@@ -11,7 +11,7 @@ import {
   LoadingBackdrop,
 } from 'src/components';
 import Box from '@mui/material/Box';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FiSave } from 'react-icons/fi';
 import ProcedureForm from './Form';
 import {
@@ -24,14 +24,17 @@ import {
   useGetProcedureDetail,
   usePatchProcedure
 } from 'src/hooks/useProcedures';
-import { PROCEDURES } from 'src/constants/paths';
+import { getViewPatientPath, PROCEDURES } from 'src/constants/paths';
 import useSnackbarAlert from 'src/hooks/useSnackbarAlert';
+import { formatRegDate } from 'src/util/common';
 
 const AddEditProcedure: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const { id = '' } = useParams();
   const isEdit = !!id;
-
+  const location = useLocation();
+  const patientId  = location.state;
+  
   const { snackbarAlertState, setSnackbarAlertState, onDismiss } =
     useSnackbarAlert();
 
@@ -41,15 +44,16 @@ const AddEditProcedure: React.FC = (): JSX.Element => {
     mode: 'onBlur',
   });
 
-  const { isFetching, data } = useGetProcedureDetail({
+  const { isFetching, response } = useGetProcedureDetail({ 
     id,
   });
 
   useEffect(() => {
-    if (!isFetching && data) {
-      reset(data);
+    if (!isFetching && response) {
+      response.procedureDate = formatRegDate(response.procedureDate);
+      reset(response);
     }
-  }, [data, isFetching]);
+  }, [response, isFetching]);
 
   const { mutate: patchProcedure, isPending: isPatchLoading } = usePatchProcedure(
     id,
@@ -76,9 +80,9 @@ const AddEditProcedure: React.FC = (): JSX.Element => {
   );
 
   const { mutate: createProcedure, isPending: isCreatingProcedure } =
-    useCreateProcedure({
+    useCreateProcedure(patientId, {  
       onSuccess: () => {
-        navigate(PROCEDURES, {
+        navigate(getViewPatientPath(patientId), {
           state: {
             alert: {
               severity: 'success',
@@ -104,6 +108,7 @@ const AddEditProcedure: React.FC = (): JSX.Element => {
   } = methods;
 
   const onSubmit = (data: CreateProcedurePayload) => {
+    data.procedureDate = formatRegDate(data.procedureDate);
     if (isEdit) {
       patchProcedure(data);
     } else {
@@ -134,7 +139,7 @@ const AddEditProcedure: React.FC = (): JSX.Element => {
             secondaryButtonType="submit"
           />
 
-          <Box sx={{ marginTop: '60px', maxWidth: '630px' }}>
+          <Box sx={{ marginTop: '60px'}}>
             <PageLoader isLoading={isFetching} Components={{ Loading: 'form' }}>
               <ProcedureForm />
 

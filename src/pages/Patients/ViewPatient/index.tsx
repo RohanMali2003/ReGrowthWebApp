@@ -18,16 +18,21 @@ import { useDeletePatient, useGetPatientDetail } from 'src/hooks/usePatients';
 import { viewPatientBreadCrumbLinks } from '../constants';
 import { getEditPatientRoute, PATIENTS } from 'src/constants/paths';
 import PatientBasicInfo from './PatientBasicInfo';
-import { ERROR_RED } from 'src/constants/colors';
+import { ERROR_RED, WHITE_SMOKE } from 'src/constants/colors';
 import useDeleteConfirmationModal from 'src/hooks/useDelete';
 import useSnackbarAlert from 'src/hooks/useSnackbarAlert';
+import { Avatar } from '@mui/material';
 
 const ViewPatient: React.FC = (): JSX.Element => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { isFetching, data } = useGetPatientDetail({
-    id,
-  });
+  const patientDetails = useGetPatientDetail(
+    {
+     id,
+    }
+  );
+
+  const isFetching = patientDetails.isLoading;
   const { snackbarAlertState, onDismiss, setSnackbarAlertState } =
     useSnackbarAlert();
 
@@ -85,20 +90,29 @@ const ViewPatient: React.FC = (): JSX.Element => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              backgroundColor: WHITE_SMOKE,
+              minHeight: '60px',
+              padding: '20px',
+              borderRadius: '10px',
             }}
           >
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'flex-start',
+                marginLeft: '20px',
               }}
             >
+              <Box>
+                {' '}
+                <Avatar />{' '}
+              </Box>
               <Typography
-                sx={{ fontWeight: '600', fontSize: '26px', lineHeight: '31px' }}
+                sx={{ fontWeight: '600', fontSize: '26px', marginLeft: '20px' }}
               >
-                {data?.firstName} {data?.lastName}
+                {patientDetails?.data?.firstName} {patientDetails.data?.lastName}
               </Typography>
             </Box>
             <Box
@@ -119,8 +133,8 @@ const ViewPatient: React.FC = (): JSX.Element => {
                 variant="contained"
                 onClick={() =>
                   onShowDeleteConfirmationModal(
-                    data?.id || '',
-                    data?.firstName || '',
+                    patientDetails?.data?.patientId.toString() || '',
+                    patientDetails.data?.firstName || '',
                   )
                 }
                 startIcon={<Icon icon="trash" size="15" />}
@@ -130,7 +144,7 @@ const ViewPatient: React.FC = (): JSX.Element => {
               </Button>
             </Box>
           </Box>
-          <PatientBasicInfo patientDetails={data} />
+          <PatientBasicInfo patientDetails={patientDetails.data}/>
           <Box>
             <Button
               variant="outlined"

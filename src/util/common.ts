@@ -1,19 +1,18 @@
 import { PRIMARY_DATE_FORMAT } from 'src/constants/date';
-import { format } from 'date-fns/format';
+import { format, parse } from 'date-fns';
 
 export const getValidDate = (date: number | string | Date) => {
   const d = new Date(date);
 
   // If it's not NaN then return the date
   if (!isNaN(d.valueOf())) {
-    return d;
+    return new Date(d.toDateString()); // Strip the time part
   }
 
   if (typeof date === 'string') {
-    // UTC format will show invalid for firefox
-    if (new RegExp(/UTC/, 'i').test(date)) {
-      const [calendarDate, time] = date.split(' ');
-      return new Date(`${calendarDate}T${time}Z`);
+    const parsedDate = parse(date, PRIMARY_DATE_FORMAT, new Date());
+    if (!isNaN(parsedDate.valueOf())) {
+      return new Date(parsedDate.toDateString()); // Strip the time part
     }
   }
 
@@ -31,6 +30,10 @@ export const formatDate = (
   } catch {
     console.warn(`Invalid date returned: ${date}, returning blank string`);
   }
-
   return formattedDate;
 };
+
+export function formatRegDate(date: string): string {
+  const [day, month, year] = date.split('-');
+  return `${year}-${month}-${day}`;
+}

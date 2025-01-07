@@ -24,7 +24,7 @@ import {
   BsQuestionCircleFill,
 } from 'react-icons/bs';
 import { CiCloud } from 'react-icons/ci';
-import { FaCheckCircle, FaGitlab, FaSlack, FaTrademark } from 'react-icons/fa';
+import { FaCheckCircle, FaGitlab, FaSlack, FaTrademark, FaTablets } from 'react-icons/fa';
 import {
   FiAlertOctagon,
   FiArrowLeft,
@@ -165,6 +165,7 @@ const iconMapping = {
   activity: BsActivity,
   businessman: FcBusinessman,
   businesswoman: FcBusinesswoman,
+  tablets: FaTablets,
 } as const;
 
 export const getIcon = (iconValue: IconMappingKeys) => {
